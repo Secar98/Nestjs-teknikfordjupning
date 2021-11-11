@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  async signUser(req) {
+  async signUpUser(req) {
     const { email, name, password } = req.body;
     const user = await this.userModel.exists({ email });
     if (user) {
@@ -22,22 +22,20 @@ export class UsersService {
       email,
       password: hashedPassword,
     });
-    const { id } = await newUser.save();
-    return { id: id };
+    const createdUser = await newUser.save();
+    return createdUser;
   }
 
   async loginUser(email: string, pass: string): Promise<User | undefined> {
     const user = await this.userModel.findOne({ email });
-
     if (!user) {
-      throw new BadRequestException('Wrong email or password');
+      throw new BadRequestException('Wrong email');
     }
 
-    const isMatch = bcrypt.compare(pass, user.password);
+    const isMatch = await bcrypt.compare(pass, user.password);
     if (!isMatch) {
-      throw new BadRequestException('Wrong email or password');
+      throw new BadRequestException('Wrong password');
     }
-
     return user;
   }
 }
