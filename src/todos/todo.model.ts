@@ -6,7 +6,7 @@ export const TodoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
 );
@@ -14,5 +14,5 @@ export const TodoSchema = new mongoose.Schema(
 export interface Todo {
   _id: string;
   content: string;
-  user: Array<string>;
+  user: string;
 }

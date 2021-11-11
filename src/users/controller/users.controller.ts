@@ -7,7 +7,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('signup')
-  async signupUser(@Request() req: object): Promise<object> {
+  async signupUser(@Request() req: Object): Promise<Object> {
     const { password, ...rest } = await this.usersService.signUpUser(req);
     return rest;
   }
