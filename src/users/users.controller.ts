@@ -14,6 +14,8 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('signin')
   async signIn(@Request() req): Promise<object> {
-    return req.user._doc;
+    const { _doc: user } = req.user;
+    delete user['password'];
+    return await user;
   }
 }
