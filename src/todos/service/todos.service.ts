@@ -7,8 +7,24 @@ import { Todo } from '../todo.model';
 export class TodosService {
   constructor(@InjectModel('Todo') private readonly todoModel: Model<Todo>) {}
 
-  // GET Todos
-  // Get Todo
+  async fetchTodos(req): Promise<Todo[]> {
+    try {
+      const { userId: id } = req.user;
+      const todos = await this.todoModel.find({ user: id }).exec();
+      return todos;
+    } catch (error) {
+      throw new BadRequestException('Could not get todos');
+    }
+  }
+
+  async fetchTodo(id): Promise<any> {
+    try {
+      const todo = await this.todoModel.findById(id).exec();
+      return todo;
+    } catch (error) {
+      throw new BadRequestException('Could not get todo');
+    }
+  }
 
   async saveTodo(req): Promise<Todo> {
     try {

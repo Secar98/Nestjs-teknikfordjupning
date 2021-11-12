@@ -1,6 +1,8 @@
 import {
   Controller,
   Delete,
+  Get,
+  Param,
   Patch,
   Post,
   Request,
@@ -14,20 +16,32 @@ export class TodosController {
   constructor(private readonly todoService: TodosService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async getTodo(@Param('id') todoId: string) {
+    return await this.todoService.fetchTodo(todoId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getTodos(@Request() req) {
+    return await this.todoService.fetchTodos(req);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   async postTodo(@Request() req) {
-    return this.todoService.saveTodo(req);
+    return await this.todoService.saveTodo(req);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch()
   async patchTodo(@Request() req) {
-    return this.todoService.updateTodo(req);
+    return await this.todoService.updateTodo(req);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete()
   async deleteTodo(@Request() req) {
-    return this.todoService.deleteTodo(req);
+    return await this.todoService.deleteTodo(req);
   }
 }
