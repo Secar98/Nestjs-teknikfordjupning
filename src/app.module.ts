@@ -7,7 +7,12 @@ import { AuthModule } from './auth/auth.module';
 import { TodosModule } from './todos/todos.module';
 
 @Module({
-  imports: [MongooseModule.forRoot(DB_URI), UsersModule, AuthModule, TodosModule],
+  imports: [
+    MongooseModule.forRoot(DB_URI),
+    UsersModule,
+    AuthModule,
+    TodosModule,
+  ],
   controllers: [AppController],
   providers: [],
 })

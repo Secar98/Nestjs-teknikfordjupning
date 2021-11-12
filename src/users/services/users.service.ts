@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  async signUpUser(req): Promise<Object> {
+  async signUpUser(req): Promise<{ msg: string }> {
     const { email, name, password } = req.body;
     const user = await this.userModel.exists({ email });
     if (user) {
