@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  async signUpUser(req): Promise<User> {
+  async signUpUser(req): Promise<Object> {
     const { email, name, password } = req.body;
     const user = await this.userModel.exists({ email });
     if (user) {
@@ -22,8 +22,8 @@ export class UsersService {
       email,
       password: hashedPassword,
     });
-    const createdUser = await newUser.save();
-    return createdUser;
+    await newUser.save();
+    return { msg: 'User created' };
   }
 
   async loginUser(email: string, pass: string): Promise<User | undefined> {

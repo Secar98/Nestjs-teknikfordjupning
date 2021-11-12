@@ -8,8 +8,8 @@ export class UsersController {
 
   @Post('signup')
   async signupUser(@Request() req: Object): Promise<Object> {
-    const { password, ...rest } = await this.usersService.signUpUser(req);
-    return rest;
+    const response = await this.usersService.signUpUser(req);
+    return response;
   }
 
   @UseGuards(JwtAuthGuard)
